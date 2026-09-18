@@ -6,21 +6,26 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { ThemeProvider } from "~/components/theme-provider";
 import type { Route } from "./+types/root";
 import "./app.css";
 
+const themeScript = `try{var t=localStorage.getItem('vite-ui-theme');if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`;
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>{themeScript}</script>
         <Meta />
         <Links />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          {children}
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
