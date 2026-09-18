@@ -14,6 +14,9 @@
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "tailwind": "recommended"
+    },
     "rules": {
       "preset": "recommended"
     }
@@ -30,5 +33,8 @@
         "organizeImports": "on"
       }
     }
+  },
+  "css": {
+    "parser": { "tailwindDirectives": true }
   }
 }
