@@ -1,4 +1,8 @@
-import { EnvelopeSimple, MapPin, Phone } from "@phosphor-icons/react";
+import {
+  EnvelopeSimpleIcon,
+  MapPinIcon,
+  PhoneIcon,
+} from "@phosphor-icons/react";
 
 export function Footer() {
   return (
@@ -34,7 +38,7 @@ export function Footer() {
             <h4 className="text-sm font-semibold mb-3">Contact</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
-                <EnvelopeSimple size={16} />
+                <EnvelopeSimpleIcon size={16} />
                 <a
                   href="mailto:ngphuchoanganh@gmail.com"
                   className="hover:text-primary transition-colors"
@@ -43,11 +47,11 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={16} />
+                <PhoneIcon size={16} />
                 <span>0962120898</span>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin size={16} />
+                <MapPinIcon size={16} />
                 <span>Hoai Duc, Ha Noi</span>
               </li>
             </ul>

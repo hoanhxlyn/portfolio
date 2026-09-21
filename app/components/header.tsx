@@ -1,4 +1,4 @@
-import { List } from "@phosphor-icons/react";
+import { ListIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import { ThemeToggle } from "~/components/shared/theme-toggle";
@@ -68,7 +68,7 @@ export function Header() {
                 className="md:hidden"
                 aria-label="Menu"
               >
-                <List size={24} />
+                <ListIcon size={24} />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64">

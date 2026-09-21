@@ -1,4 +1,4 @@
-import { ArrowDown } from "@phosphor-icons/react";
+import { ArrowDownIcon } from "@phosphor-icons/react";
 import { LinkButton } from "~/components/ui/button";
 
 interface HeroProps {
@@ -33,7 +33,7 @@ export function Hero({ englishName, title, objective }: HeroProps) {
           </LinkButton>
         </div>
         <div className="pt-12 animate-bounce">
-          <ArrowDown size={24} className="mx-auto text-muted-foreground" />
+          <ArrowDownIcon size={24} className="mx-auto text-muted-foreground" />
         </div>
       </div>
     </section>

@@ -16,7 +16,7 @@ bun run format       # Run Biome formatter
 
 - **Framework**: React Router v8, SPA mode (`ssr: false` in `react-router.config.ts`)
 - **Styling**: Tailwind CSS v4 + shadcn/ui (base-maia style, stone base color)
-- **Icons**: Phosphor Icons (`@phosphor-icons/react`)
+- **Icons**: Phosphor Icons (`@phosphor-icons/react`) — always use the `Icon` suffix (e.g., `ArrowDownIcon`, not `ArrowDown`) as short names are deprecated in v2
 - **Font**: Geist Variable (via `@fontsource-variable/geist`)
 - **Hooks**: `usehooks-ts` for common hooks (`useDarkMode`, `useIntersectionObserver`, etc.)
 - **Linting**: Biome (`@biomejs/biome`)

@@ -1,4 +1,8 @@
-import { EnvelopeSimple, MapPin, Phone } from "@phosphor-icons/react";
+import {
+  EnvelopeSimpleIcon,
+  MapPinIcon,
+  PhoneIcon,
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import { SectionWrapper } from "~/components/section-wrapper";
 import { Button } from "~/components/ui/button";
@@ -32,7 +36,7 @@ export function Contact({ email, phone, location }: ContactProps) {
           <h3 className="text-lg font-semibold">Get in touch</h3>
           <ul className="space-y-4 text-sm">
             <li className="flex items-center gap-3">
-              <EnvelopeSimple size={20} className="text-primary shrink-0" />
+              <EnvelopeSimpleIcon size={20} className="text-primary shrink-0" />
               <a
                 href={`mailto:${email}`}
                 className="hover:text-primary transition-colors"
@@ -41,11 +45,11 @@ export function Contact({ email, phone, location }: ContactProps) {
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <Phone size={20} className="text-primary shrink-0" />
+              <PhoneIcon size={20} className="text-primary shrink-0" />
               <span>{phone}</span>
             </li>
             <li className="flex items-center gap-3">
-              <MapPin size={20} className="text-primary shrink-0" />
+              <MapPinIcon size={20} className="text-primary shrink-0" />
               <span>{location}</span>
             </li>
           </ul>

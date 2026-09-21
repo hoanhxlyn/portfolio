@@ -1,4 +1,9 @@
-import { Briefcase, Certificate, Clock, Trophy } from "@phosphor-icons/react";
+import {
+  BriefcaseIcon,
+  CertificateIcon,
+  ClockIcon,
+  TrophyIcon,
+} from "@phosphor-icons/react";
 import { SectionWrapper } from "~/components/section-wrapper";
 import { StatCard } from "~/components/shared/stat-card";
 
@@ -8,10 +13,10 @@ interface AboutProps {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  "Years Experience": <Clock size={24} />,
-  "Projects Delivered": <Trophy size={24} />,
-  Companies: <Briefcase size={24} />,
-  "IELTS Score": <Certificate size={24} />,
+  "Years Experience": <ClockIcon size={24} />,
+  "Projects Delivered": <TrophyIcon size={24} />,
+  Companies: <BriefcaseIcon size={24} />,
+  "IELTS Score": <CertificateIcon size={24} />,
 };
 
 export function About({ objective, stats }: AboutProps) {
