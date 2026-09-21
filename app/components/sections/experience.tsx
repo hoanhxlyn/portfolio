@@ -1,16 +1,8 @@
 import { SectionWrapper } from "~/components/section-wrapper";
 import { TimelineItem } from "~/components/shared/timeline-item";
+import { experience } from "~/data/portfolio";
 
-interface ExperienceProps {
-  items: {
-    company: string;
-    role: string;
-    period: string;
-    description?: string | null;
-  }[];
-}
-
-export function Experience({ items }: ExperienceProps) {
+export function Experience() {
   return (
     <SectionWrapper
       id="experience"
@@ -18,14 +10,14 @@ export function Experience({ items }: ExperienceProps) {
       subtitle="Where I've worked"
     >
       <div className="max-w-2xl mx-auto">
-        {items.map((item, i) => (
+        {experience.map((item, i) => (
           <TimelineItem
             key={item.company}
             company={item.company}
             role={item.role}
             period={item.period}
             description={item.description}
-            isLast={i === items.length - 1}
+            isLast={i === experience.length - 1}
           />
         ))}
       </div>

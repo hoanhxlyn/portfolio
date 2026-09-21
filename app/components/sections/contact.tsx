@@ -9,17 +9,14 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import { personalInfo } from "~/data/portfolio";
 
-interface ContactProps {
-  email: string;
-  phone: string;
-  location: string;
-}
+const { email, phone, location } = personalInfo;
 
-export function Contact({ email, phone, location }: ContactProps) {
+export function Contact() {
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
     setSubmitted(true);
   }

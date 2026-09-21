@@ -1,14 +1,10 @@
 import { ArrowDownIcon } from "@phosphor-icons/react";
 import { LinkButton } from "~/components/ui/button";
+import { personalInfo } from "~/data/portfolio";
 
-interface HeroProps {
-  name: string;
-  englishName: string;
-  title: string;
-  objective: string;
-}
+const { englishName, title, objective } = personalInfo;
 
-export function Hero({ englishName, title, objective }: HeroProps) {
+export function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-center px-4 sm:px-6">
       <div className="max-w-3xl mx-auto text-center space-y-6">

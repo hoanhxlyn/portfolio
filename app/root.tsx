@@ -4,7 +4,6 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
 } from "react-router";
 import { ThemeProvider } from "~/components/theme-provider";
 import type { Route } from "./+types/root";
@@ -26,7 +25,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           {children}
         </ThemeProvider>
-        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

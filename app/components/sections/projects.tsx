@@ -1,18 +1,8 @@
 import { SectionWrapper } from "~/components/section-wrapper";
 import { ProjectCard } from "~/components/shared/project-card";
+import { projects } from "~/data/portfolio";
 
-interface ProjectsProps {
-  items: {
-    name: string;
-    period: string;
-    role: string;
-    description: string;
-    teamSize?: string | null;
-    technologies: string[];
-  }[];
-}
-
-export function Projects({ items }: ProjectsProps) {
+export function Projects() {
   return (
     <SectionWrapper
       id="projects"
@@ -20,7 +10,7 @@ export function Projects({ items }: ProjectsProps) {
       subtitle="Selected work I've contributed to"
     >
       <div className="grid md:grid-cols-2 gap-6">
-        {items.map((project) => (
+        {projects.map((project) => (
           <ProjectCard key={project.name} {...project} />
         ))}
       </div>

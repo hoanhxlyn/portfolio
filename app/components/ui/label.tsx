@@ -1,5 +1,4 @@
 import { cn } from "cn";
-import * as React from "react";
 import {
   LabelContext,
   Label as LabelPrimitive,

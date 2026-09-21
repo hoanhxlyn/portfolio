@@ -6,11 +6,9 @@ import {
 } from "@phosphor-icons/react";
 import { SectionWrapper } from "~/components/section-wrapper";
 import { StatCard } from "~/components/shared/stat-card";
+import { personalInfo, stats } from "~/data/portfolio";
 
-interface AboutProps {
-  objective: string;
-  stats: { value: string; label: string }[];
-}
+const { objective } = personalInfo;
 
 const iconMap: Record<string, React.ReactNode> = {
   "Years Experience": <ClockIcon size={24} />,
@@ -19,7 +17,7 @@ const iconMap: Record<string, React.ReactNode> = {
   "IELTS Score": <CertificateIcon size={24} />,
 };
 
-export function About({ objective, stats }: AboutProps) {
+export function About() {
   return (
     <SectionWrapper id="about" title="About Me">
       <div className="grid md:grid-cols-2 gap-12 items-start">
