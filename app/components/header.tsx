@@ -48,7 +48,7 @@ export function Header() {
       )}
     >
       <nav className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="/" className="text-lg font-bold tracking-tight">
+        <a href="/" className="text-lg font-bold tracking-tight text-primary">
           AN
         </a>
 
@@ -60,7 +60,7 @@ export function Header() {
                 onClick={scrollToSection}
                 className={cn(
                   "relative px-3 py-2 text-sm rounded-md transition-colors hover:text-primary",
-                  "after:absolute after:bottom-[4px] after:left-1/2 after:h-[1.5px] after:w-0 after:bg-current after:transition-all after:duration-250 after:ease-in-out",
+                  "after:absolute after:bottom-1 after:left-1/2 after:h-[1.5px] after:w-0 after:bg-current after:transition-all after:duration-250 after:ease-in-out",
                   "hover:after:left-[20%] hover:after:w-[60%]",
                   activeId === link.href.slice(1)
                     ? "text-primary font-medium after:left-[20%] after:w-[60%]"

@@ -5,8 +5,10 @@ export const personalInfo = {
   location: "Hoài Đức, Hà Nội",
   phone: "0962120898",
   email: "ngphuchoanganh@gmail.com",
-  objective:
-    "With nearly 5 years of experience developing enterprise applications in Agile/Scrum environments, and focus on frontend engineering using React.js, Next.js, TypeScript, and modern UI implementation practices. I am highly skilled in implementing responsive, accessible UI/UX components using React.js as well as professional in delivering clean, maintainable, and well-tested code.",
+  objective: [
+    "With nearly 5 years of experience developing enterprise applications in Agile/Scrum environments, and focus on frontend engineering using React.js, Next.js, TypeScript, and modern UI implementation practices.",
+    "I am highly skilled in implementing responsive, accessible UI/UX components using React.js as well as professional in delivering clean, maintainable, and well-tested code.",
+  ],
 };
 
 export const stats = [
@@ -58,7 +60,7 @@ export const experience = [
   {
     company: "ICORP Investment Joint Stock Company",
     role: "Software Engineer",
-    period: "09/2023 — 11/2024",
+    period: "10/2023 — 11/2024",
     description: null,
   },
   {

@@ -1,26 +1,21 @@
 import { SectionWrapper } from "~/components/section-wrapper";
-import { SkillBadge } from "~/components/shared/skill-badge";
 import { skillCategories } from "~/data/portfolio";
 
 export function Skills() {
   return (
-    <SectionWrapper
-      id="skills"
-      title="Skills"
-      subtitle="Technologies and tools I work with"
-      className="bg-muted/30"
-    >
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <SectionWrapper id="skills" title="Skills" className="bg-muted/30">
+      <div className="space-y-6">
         {skillCategories.map((cat) => (
-          <div key={cat.name} className="space-y-3">
+          <div
+            key={cat.name}
+            className="grid sm:grid-cols-[140px_1fr] gap-2 sm:gap-6 py-4 border-b border-border/50 last:border-0"
+          >
             <h3 className="text-sm font-semibold text-primary uppercase tracking-wider">
               {cat.name}
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {cat.skills.map((skill) => (
-                <SkillBadge key={skill} name={skill} />
-              ))}
-            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              {cat.skills.join(" · ")}
+            </p>
           </div>
         ))}
       </div>
