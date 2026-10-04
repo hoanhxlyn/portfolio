@@ -10,6 +10,7 @@ import { SectionWrapper } from "~/components/section-wrapper";
 import { StatCard } from "~/components/shared/stat-card";
 import { personalInfo, stats } from "~/data/portfolio";
 import { useScrollReveal } from "~/hooks/use-scroll-reveal";
+import { entranceLeft, entranceUp, reveal } from "~/lib/animations";
 import { cn } from "~/lib/utils";
 
 const { objective } = personalInfo;
@@ -42,9 +43,6 @@ const highlightKeywords = (text: string) => {
   });
 };
 
-const anim = (isVisible: boolean, ...classes: string[]) =>
-  cn(!isVisible && "invisible", isVisible && classes.join(" "));
-
 export function About() {
   const photo = useScrollReveal();
   const text = useScrollReveal();
@@ -53,13 +51,7 @@ export function About() {
   return (
     <SectionWrapper id="about" title="About Me" animate={false}>
       <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div
-          ref={photo.ref}
-          className={anim(
-            photo.isVisible,
-            "animate-in fade-in slide-in-from-left-8 fill-mode-forwards duration-700",
-          )}
-        >
+        <div ref={photo.ref} className={reveal(photo.isVisible, entranceLeft)}>
           <div className="relative mx-auto w-48 h-64 sm:w-64 sm:h-80 md:w-72 md:h-96">
             <div
               className="absolute -inset-2 bg-primary/10 -rotate-2"
@@ -77,10 +69,7 @@ export function About() {
           ref={text.ref}
           className={cn(
             "space-y-4",
-            anim(
-              text.isVisible,
-              "animate-in fade-in slide-in-from-bottom-4 fill-mode-forwards duration-500 delay-200",
-            ),
+            reveal(text.isVisible, cn(entranceUp, "delay-200")),
           )}
         >
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -102,7 +91,7 @@ export function About() {
           {objective.map((paragraph) => (
             <p
               key={paragraph}
-              className="text-muted-foreground leading-relaxed"
+              className="text-muted-foreground leading-relaxed max-w-prose text-pretty"
             >
               {highlightKeywords(paragraph)}
             </p>
@@ -121,10 +110,7 @@ export function About() {
             label={stat.label}
             icon={iconMap[stat.label]}
             animate={statsRef.isVisible}
-            className={anim(
-              statsRef.isVisible,
-              "animate-in fade-in slide-in-from-bottom-4 fill-mode-forwards duration-500",
-            )}
+            className={reveal(statsRef.isVisible, entranceUp)}
             style={{ animationDelay: `${(i + 1) * 100}ms` }}
           />
         ))}

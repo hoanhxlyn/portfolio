@@ -85,7 +85,9 @@ export function StatCard({
           {icon}
         </div>
       )}
-      <span className="text-3xl font-bold tracking-tight">{formatted}</span>
+      <span className="text-3xl font-bold tracking-tight tabular-nums">
+        {formatted}
+      </span>
       <span className="mt-1 text-sm text-muted-foreground">{label}</span>
     </div>
   );

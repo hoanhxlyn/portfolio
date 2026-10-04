@@ -34,7 +34,7 @@ export function Contact() {
     <SectionWrapper
       id="contact"
       title="Contact"
-      subtitle="Let's work together"
+      subtitle="Let's build something"
       className="bg-muted/30"
     >
       <div className="max-w-xl">

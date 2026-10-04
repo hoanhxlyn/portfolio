@@ -1,0 +1,11 @@
+[build]
+  command = "bun run build"
+  publish = "build/client"
+
+[build.environment]
+  BUN_VERSION = "1.2.13"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

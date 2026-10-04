@@ -28,7 +28,7 @@ export function Projects() {
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
                 {project.description}
               </p>
               <div className="flex flex-wrap gap-1.5 mt-3">

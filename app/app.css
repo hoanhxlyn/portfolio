@@ -12,6 +12,8 @@ html {
 
 html,
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   @apply bg-background text-foreground;
 
   @media (prefers-color-scheme: dark) {
@@ -76,7 +78,7 @@ body {
   --secondary: oklch(0.955 0.008 55);
   --secondary-foreground: oklch(0.2 0.012 55);
   --muted: oklch(0.955 0.008 55);
-  --muted-foreground: oklch(0.52 0.015 55);
+  --muted-foreground: oklch(0.5 0.015 55);
   --accent: oklch(0.955 0.008 55);
   --accent-foreground: oklch(0.2 0.012 55);
   --destructive: oklch(0.577 0.245 27.325);

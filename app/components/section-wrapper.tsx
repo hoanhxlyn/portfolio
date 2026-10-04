@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useScrollReveal } from "~/hooks/use-scroll-reveal";
+import { entranceUp, reveal } from "~/lib/animations";
 import { cn } from "~/lib/utils";
 
 interface SectionWrapperProps {
@@ -27,19 +28,14 @@ export function SectionWrapper({
       ref={animate ? ref : undefined}
       className={cn(
         "py-20 md:py-28",
-        animate &&
-          cn(
-            !isVisible && "invisible",
-            isVisible &&
-              "animate-in fade-in slide-in-from-bottom-4 fill-mode-forwards duration-500",
-          ),
+        animate && reveal(isVisible, entranceUp),
         className,
       )}
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {title && (
           <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-balance">
               {title}
             </h2>
             {subtitle && (
