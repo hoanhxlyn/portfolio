@@ -1,12 +1,14 @@
 import { ListIcon } from "@phosphor-icons/react";
-import { useCallback, useRef, useState } from "react";
-import { DialogTrigger } from "react-aria-components";
+import { lazy, Suspense, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import { ThemeToggle } from "~/components/shared/theme-toggle";
 import { Button } from "~/components/ui/button";
-import { SheetContent, SheetTitle } from "~/components/ui/sheet";
 import { useActiveSection } from "~/hooks/use-active-section";
 import { cn } from "~/lib/utils";
+
+const MobileDrawer = lazy(() =>
+  import("~/components/mobile-nav").then((m) => ({ default: m.MobileDrawer })),
+);
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -29,17 +31,14 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>) {
 export function Header() {
   const activeId = useActiveSection(sectionIds);
   const [scrolled, setScrolled] = useState(false);
-  const sheetTriggerRef = useRef<HTMLButtonElement>(null);
+  const [navOpen, setNavOpen] = useState(false);
 
   useEventListener("scroll", () => setScrolled(window.scrollY > 50));
 
-  const handleMobileNav = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      scrollToSection(e);
-      sheetTriggerRef.current?.click();
-    },
-    [],
-  );
+  function handleMobileNav(e: React.MouseEvent<HTMLAnchorElement>) {
+    scrollToSection(e);
+    setNavOpen(false);
+  }
 
   return (
     <header
@@ -76,37 +75,24 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <DialogTrigger>
-            <Button
-              ref={sheetTriggerRef}
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              aria-label="Menu"
-            >
-              <ListIcon size={24} />
-            </Button>
-            <SheetContent side="right" className="w-64">
-              <SheetTitle className="sr-only">Navigation</SheetTitle>
-              <nav className="flex flex-col gap-2 mt-8">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleMobileNav}
-                    className={cn(
-                      "px-4 py-2 text-sm rounded-md transition-colors hover:bg-accent",
-                      activeId === link.href.slice(1)
-                        ? "text-primary font-medium"
-                        : "text-muted-foreground",
-                    )}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-            </SheetContent>
-          </DialogTrigger>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="Menu"
+            onClick={() => setNavOpen(true)}
+          >
+            <ListIcon size={24} />
+          </Button>
+          <Suspense fallback={null}>
+            <MobileDrawer
+              isOpen={navOpen}
+              onOpenChange={setNavOpen}
+              activeId={activeId}
+              links={navLinks}
+              onNavigate={handleMobileNav}
+            />
+          </Suspense>
         </div>
       </nav>
     </header>
