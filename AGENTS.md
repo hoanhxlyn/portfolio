@@ -10,6 +10,7 @@ bun run typecheck    # Generates route types then runs tsc
 bun run start        # Serve production build
 bun run lint         # Run Biome linter
 bun run format       # Run Biome formatter
+bun run check:browser # Browser smoke test of the built app (Edge + bun run start)
 ```
 
 ## Architecture
@@ -103,6 +104,9 @@ public/                  # Static assets
 ## Important Notes
 
 - **Linter/Formatter**: Biome is configured (`biome.json`) — use `bun run lint` / `bun run format`
-- **No test framework** configured
+- **No test framework** configured — `bun run check:browser` is the only automated
+  check: it drives the production build in Edge via Playwright (`playwright-core`,
+  `channel: msedge`). Run `bun run build && bun run start`, then it in another shell.
+  Screenshots land in `build/browser-check/`.
 - Route types must be generated before typechecking (`react-router typegen`)
 - SPA mode: no server-side rendering, all data loaded client-side
