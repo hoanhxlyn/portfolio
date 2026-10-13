@@ -10,3 +10,6 @@
 /.mimocode/
 
 /.commandcode/*
+
+# Netlify CLI local state
+/.netlify/

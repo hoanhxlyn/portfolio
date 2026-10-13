@@ -8,6 +8,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "check:browser": "bun scripts/browser-check.mjs",
+    "deploy": "bun run build && bunx netlify-cli deploy --prod --dir=build/client",
     "lint": "biome check .",
     "format": "biome check --write .",
     "prepare": "lefthook install"
