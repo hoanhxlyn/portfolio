@@ -5,6 +5,8 @@ export const personalInfo = {
   location: "Hoài Đức, Hà Nội",
   phone: "0962120898",
   email: "ngphuchoanganh@gmail.com",
+  // dummy: replace with real LinkedIn profile URL
+  linkedin: "https://www.linkedin.com/in/andrew-nguyen",
   objective: [
     "With nearly 5 years of experience developing enterprise applications in Agile/Scrum environments, and focus on frontend engineering using React.js, Next.js, TypeScript, and modern UI implementation practices.",
     "I am highly skilled in implementing responsive, accessible UI/UX components using React.js as well as professional in delivering clean, maintainable, and well-tested code.",
