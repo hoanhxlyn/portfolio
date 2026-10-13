@@ -1,19 +1,14 @@
 import { ArrowDownIcon } from "@phosphor-icons/react";
-import { useMemo } from "react";
 import { LinkButton } from "~/components/ui/button";
 import { personalInfo } from "~/data/portfolio";
+import { usePrefersReducedMotion } from "~/hooks/use-prefers-reduced-motion";
 import { entranceUp } from "~/lib/animations";
 import { cn } from "~/lib/utils";
 
 const { englishName, title, objective } = personalInfo;
 
 export function Hero() {
-  const reducedMotion = useMemo(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    [],
-  );
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
     <section className="relative min-h-dvh flex items-center justify-center px-4 sm:px-6">

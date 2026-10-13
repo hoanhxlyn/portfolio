@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "~/hooks/use-prefers-reduced-motion";
 import { cn } from "~/lib/utils";
 
 interface StatCardProps {
@@ -22,13 +23,12 @@ function parseStatValue(value: string) {
   };
 }
 
-function getInitialDisplay(animate: boolean, number: number): number {
-  if (!animate) return number;
-  if (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  )
-    return number;
+function getInitialDisplay(
+  animate: boolean,
+  reducedMotion: boolean,
+  number: number,
+): number {
+  if (!animate || reducedMotion) return number;
   return 0;
 }
 
@@ -41,14 +41,15 @@ export function StatCard({
   animate = false,
 }: StatCardProps) {
   const { prefix, number, suffix, raw } = parseStatValue(value);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [display, setDisplay] = useState(() =>
-    getInitialDisplay(animate, number),
+    getInitialDisplay(animate, prefersReducedMotion, number),
   );
   const hasDecimals = number % 1 !== 0;
   const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!animate || hasAnimated.current) return;
+    if (!animate || prefersReducedMotion || hasAnimated.current) return;
     hasAnimated.current = true;
 
     const duration = 1200;
@@ -66,7 +67,7 @@ export function StatCard({
     }
 
     requestAnimationFrame(tick);
-  }, [animate, number, hasDecimals]);
+  }, [animate, number, hasDecimals, prefersReducedMotion]);
 
   const formatted = animate
     ? `${prefix}${hasDecimals ? display.toFixed(1) : display}${suffix}`

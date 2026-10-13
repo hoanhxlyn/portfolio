@@ -1,18 +1,12 @@
-import { useMemo } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
+import { usePrefersReducedMotion } from "~/hooks/use-prefers-reduced-motion";
 
 export function useScrollReveal(options?: {
   threshold?: number;
   enabled?: boolean;
 }) {
   const enabled = options?.enabled ?? true;
-
-  const prefersReducedMotion = useMemo(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    [],
-  );
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const { ref, isIntersecting } = useIntersectionObserver({
     threshold: options?.threshold ?? 0.15,

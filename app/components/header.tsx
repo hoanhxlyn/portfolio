@@ -22,7 +22,8 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>) {
   const id = e.currentTarget.getAttribute("href")?.slice(1);
   if (!id) return;
   e.preventDefault();
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  // No behavior option: the CSS scroll-behavior decides, so reduced motion is respected.
+  document.getElementById(id)?.scrollIntoView();
 }
 
 export function Header() {

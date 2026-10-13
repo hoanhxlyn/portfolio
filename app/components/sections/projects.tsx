@@ -24,7 +24,7 @@ export function Projects() {
               </h3>
               <p className="text-sm text-muted-foreground mt-0.5">
                 {project.role}
-                {project.teamSize && ` · Team: ${project.teamSize}`}
+                {project.teamSize ? ` · Team: ${project.teamSize}` : null}
               </p>
             </div>
             <div>
