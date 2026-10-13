@@ -295,6 +295,123 @@ for (const [setting, expected] of [
   await ctx.close();
 }
 
+// --- project detail route --------------------------------------------------
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1280, height: 800 },
+    reducedMotion: "reduce",
+  });
+  const page = await ctx.newPage();
+  const errors = watchErrors(page);
+  await page.goto(BASE_URL, { waitUntil: "load" });
+  await page.waitForSelector("#projects");
+  await page.evaluate(() =>
+    document.getElementById("projects").scrollIntoView(),
+  );
+  await page.waitForTimeout(500);
+  const homeScroll = await page.evaluate(() => window.scrollY);
+
+  await page.locator("#projects a[href='/projects/cozy']").click();
+  await page.waitForURL("**/projects/cozy");
+  await page.waitForSelector("article h1");
+  check(
+    "project: card navigates to its detail page",
+    (await page.locator("article h1").textContent())?.includes("Cozy"),
+    page.url(),
+  );
+
+  const edgeNav = page.locator("nav[aria-label='Project navigation']");
+  check(
+    "project: first project has no previous edge link",
+    (await edgeNav.locator("a").count()) === 1,
+  );
+  check(
+    "project: edge links are fixed to the viewport",
+    (await edgeNav.evaluate((el) => getComputedStyle(el).position)) === "fixed",
+  );
+
+  // Leaving a scrolled page for the next project must open at the top.
+  await page.evaluate(() => window.scrollTo(0, 800));
+  await edgeNav.locator("a[href='/projects/spectacle']").click();
+  await page.waitForURL("**/projects/spectacle");
+  await page
+    .waitForFunction(() =>
+      document.querySelector("article h1")?.textContent?.includes("Spectacle"),
+    )
+    .catch(() => {});
+  check(
+    "project: next link moves to the following project",
+    (await page.locator("article h1").textContent())?.includes("Spectacle"),
+    page.url(),
+  );
+  check(
+    "project: arriving via next opens at the top",
+    (await page.evaluate(() => window.scrollY)) < 5,
+  );
+
+  await page.setViewportSize({ width: 1024, height: 800 });
+  check(
+    "project: below xl the inline neighbour nav shows and the edge nav hides",
+    !(await page.locator("nav[aria-label='Project navigation']").isVisible()) &&
+      (await page.locator("article nav a").first().isVisible()),
+  );
+  await page.setViewportSize({ width: 1280, height: 800 });
+  check(
+    "project: at xl the edge nav shows",
+    await page.locator("nav[aria-label='Project navigation']").isVisible(),
+  );
+  await page.setViewportSize({ width: 1600, height: 800 });
+  check(
+    "project: edge pill shows the title without hovering",
+    await page
+      .locator("nav[aria-label='Project navigation'] a span")
+      .first()
+      .isVisible(),
+  );
+  await page.setViewportSize({ width: 1280, height: 800 });
+
+  // Back always returns to the home page, restoring the list scroll position.
+  await page.evaluate(() => window.scrollTo(0, 700));
+  await page.locator("article button", { hasText: "Back" }).click();
+  await page.waitForURL((url) => new URL(url).pathname === "/");
+  check(
+    "project: back returns to the home page",
+    new URL(page.url()).pathname === "/",
+    page.url(),
+  );
+  await page.waitForTimeout(300);
+  const restored = await page.evaluate(() => window.scrollY);
+  check(
+    "project: back restores the home scroll position",
+    Math.abs(restored - homeScroll) < 50,
+    `${homeScroll} -> ${restored}`,
+  );
+
+  await page.goto(`${BASE_URL}projects/econtract`, { waitUntil: "load" });
+  await page.waitForSelector("article h1");
+  check(
+    "project: last project shows only the previous edge link",
+    (await edgeNav.locator("a[href='/projects/vietinvoice']").count()) === 1 &&
+      (await edgeNav.locator("a").count()) === 1,
+  );
+  await page.locator("article button", { hasText: "Back" }).click();
+  await page.waitForURL((url) => new URL(url).pathname === "/");
+  check(
+    "project: back on a direct load also returns to the home page",
+    new URL(page.url()).pathname === "/",
+    page.url(),
+  );
+
+  await page.goto(`${BASE_URL}projects/does-not-exist`, { waitUntil: "load" });
+  await page.waitForSelector("main h1");
+  check(
+    "project: unknown slug shows a not-found message",
+    (await page.locator("main h1").textContent()) === "Project not found",
+  );
+  check("project: no errors", errors.length === 0, errors.join(" | "));
+  await ctx.close();
+}
+
 await browser.close();
 
 const failed = results.filter((r) => !r.ok);

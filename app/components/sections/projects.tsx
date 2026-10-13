@@ -1,3 +1,5 @@
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { Link } from "react-router";
 import { SectionWrapper } from "~/components/section-wrapper";
 import { Badge } from "~/components/ui/badge";
 import { projects } from "~/data/portfolio";
@@ -11,16 +13,24 @@ export function Projects() {
     >
       <div className="space-y-0">
         {projects.map((project) => (
-          <div
+          <Link
             key={project.name}
-            className="grid md:grid-cols-[1fr_2fr] gap-4 md:gap-8 py-8 border-b border-border/50 last:border-0"
+            to={`/projects/${project.slug}`}
+            className="group grid md:grid-cols-[1fr_2fr] gap-4 md:gap-8 py-8 border-b border-border/50 last:border-0 transition-colors"
           >
             <div>
               <p className="text-xs text-muted-foreground mb-1">
                 {project.period}
               </p>
-              <h3 className="text-base font-semibold leading-snug">
-                {project.name}
+              <h3 className="flex items-center gap-1.5 text-base font-semibold leading-snug">
+                <span className="group-hover:text-primary transition-colors">
+                  {project.name}
+                </span>
+                <ArrowUpRightIcon
+                  size={14}
+                  aria-hidden
+                  className="shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                />
               </h3>
               <p className="text-sm text-muted-foreground mt-0.5">
                 {project.role}
@@ -39,7 +49,7 @@ export function Projects() {
                 ))}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </SectionWrapper>

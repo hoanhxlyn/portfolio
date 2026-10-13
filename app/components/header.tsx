@@ -24,6 +24,11 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>) {
   const id = e.currentTarget.getAttribute("href")?.slice(1);
   if (!id) return;
   e.preventDefault();
+  // Away from the home page there is no section to scroll to, so go home first.
+  if (window.location.pathname !== "/") {
+    window.location.href = `/#${id}`;
+    return;
+  }
   // No behavior option: the CSS scroll-behavior decides, so reduced motion is respected.
   document.getElementById(id)?.scrollIntoView();
 }

@@ -14,7 +14,7 @@ export function Footer() {
               (label) => (
                 <a
                   key={label}
-                  href={`#${label.toLowerCase()}`}
+                  href={`/#${label.toLowerCase()}`}
                   className="hover:text-primary transition-colors"
                 >
                   {label}
