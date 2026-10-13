@@ -1,55 +1,47 @@
 import { ArrowDownIcon } from "@phosphor-icons/react";
+import { motion } from "motion/react";
 import { LinkButton } from "~/components/ui/button";
 import { personalInfo } from "~/data/portfolio";
-import { usePrefersReducedMotion } from "~/hooks/use-prefers-reduced-motion";
-import { entranceUp } from "~/lib/animations";
-import { cn } from "~/lib/utils";
+import { fadeUp, stagger } from "~/lib/motion";
 
 const { englishName, title, objective } = personalInfo;
 
 export function Hero() {
-  const reducedMotion = usePrefersReducedMotion();
-
   return (
     <section className="relative min-h-dvh flex items-center justify-center px-4 sm:px-6">
-      <div className="max-w-3xl w-full text-center">
-        <p
-          className={cn(
-            "text-sm font-medium text-primary tracking-widest uppercase mb-4",
-            !reducedMotion && cn(entranceUp, "delay-100"),
-          )}
+      <motion.div
+        className="max-w-3xl w-full text-center"
+        variants={stagger(0.1)}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.p
+          variants={fadeUp}
+          className="text-sm font-medium text-primary tracking-widest uppercase mb-4"
         >
           {title}
-        </p>
-        <h1
-          className={cn(
-            "text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none text-balance",
-            !reducedMotion && cn(entranceUp, "delay-200"),
-          )}
+        </motion.p>
+        <motion.h1
+          variants={fadeUp}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none text-balance"
         >
           {englishName}
-        </h1>
-        <p
-          className={cn(
-            "mt-3 text-lg text-muted-foreground font-light tracking-tight",
-            !reducedMotion && cn(entranceUp, "delay-300"),
-          )}
+        </motion.h1>
+        <motion.p
+          variants={fadeUp}
+          className="mt-3 text-lg text-muted-foreground font-light tracking-tight"
         >
           Building interfaces that feel inevitable.
-        </p>
-        <p
-          className={cn(
-            "mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed text-pretty",
-            !reducedMotion && cn(entranceUp, "delay-400"),
-          )}
+        </motion.p>
+        <motion.p
+          variants={fadeUp}
+          className="mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed text-pretty"
         >
           {objective[0]}
-        </p>
-        <div
-          className={cn(
-            "flex items-center justify-center gap-4 mt-8",
-            !reducedMotion && cn(entranceUp, "delay-600"),
-          )}
+        </motion.p>
+        <motion.div
+          variants={fadeUp}
+          className="flex items-center justify-center gap-4 mt-8"
         >
           <LinkButton href="#projects" size="lg">
             View My Work
@@ -57,8 +49,8 @@ export function Hero() {
           <LinkButton href="#contact" variant="outline" size="lg">
             Get In Touch
           </LinkButton>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse">
         <ArrowDownIcon
           size={20}

@@ -1,3 +1,4 @@
+import { MotionConfig } from "motion/react";
 import {
   isRouteErrorResponse,
   Links,
@@ -23,7 +24,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-          {children}
+          <MotionConfig reducedMotion="user">{children}</MotionConfig>
         </ThemeProvider>
         <Scripts />
       </body>

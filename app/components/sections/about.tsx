@@ -6,12 +6,11 @@ import {
   MapPinIcon,
   TrophyIcon,
 } from "@phosphor-icons/react";
+import { motion } from "motion/react";
 import { SectionWrapper } from "~/components/section-wrapper";
 import { StatCard } from "~/components/shared/stat-card";
 import { personalInfo, stats } from "~/data/portfolio";
-import { useScrollReveal } from "~/hooks/use-scroll-reveal";
-import { entranceLeft, entranceUp, reveal } from "~/lib/animations";
-import { cn } from "~/lib/utils";
+import { fadeLeft, fadeUp, stagger } from "~/lib/motion";
 
 const { objective } = personalInfo;
 
@@ -43,15 +42,18 @@ const highlightKeywords = (text: string) => {
   });
 };
 
-export function About() {
-  const photo = useScrollReveal();
-  const text = useScrollReveal();
-  const statsRef = useScrollReveal();
+const viewport = { once: true, amount: 0.15 } as const;
 
+export function About() {
   return (
     <SectionWrapper id="about" title="About Me" animate={false}>
       <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div ref={photo.ref} className={reveal(photo.isVisible, entranceLeft)}>
+        <motion.div
+          variants={fadeLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        >
           <div className="relative mx-auto w-48 h-64 sm:w-64 sm:h-80 md:w-72 md:h-96">
             <div
               className="absolute -inset-2 bg-primary/10 -rotate-2"
@@ -63,14 +65,14 @@ export function About() {
               className="relative w-full h-full object-cover"
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div
-          ref={text.ref}
-          className={cn(
-            "space-y-4",
-            reveal(text.isVisible, cn(entranceUp, "delay-200")),
-          )}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          className="space-y-4"
         >
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <MapPinIcon size={16} className="text-primary" aria-hidden="true" />
@@ -96,25 +98,27 @@ export function About() {
               {highlightKeywords(paragraph)}
             </p>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      <div
-        ref={statsRef.ref}
+      <motion.div
+        variants={stagger(0.1)}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
         className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12"
       >
-        {stats.map((stat, i) => (
-          <StatCard
-            key={stat.label}
-            value={stat.value}
-            label={stat.label}
-            icon={iconMap[stat.label]}
-            animate={statsRef.isVisible}
-            className={reveal(statsRef.isVisible, entranceUp)}
-            style={{ animationDelay: `${(i + 1) * 100}ms` }}
-          />
+        {stats.map((stat) => (
+          <motion.div key={stat.label} variants={fadeUp}>
+            <StatCard
+              value={stat.value}
+              label={stat.label}
+              icon={iconMap[stat.label]}
+              animate
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </SectionWrapper>
   );
 }

@@ -1,6 +1,6 @@
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { useScrollReveal } from "~/hooks/use-scroll-reveal";
-import { entranceUp, reveal } from "~/lib/animations";
+import { fadeUp } from "~/lib/motion";
 import { cn } from "~/lib/utils";
 
 interface SectionWrapperProps {
@@ -20,17 +20,14 @@ export function SectionWrapper({
   animate = true,
   children,
 }: SectionWrapperProps) {
-  const { ref, isVisible } = useScrollReveal({ enabled: animate });
-
   return (
-    <section
+    <motion.section
       id={id}
-      ref={animate ? ref : undefined}
-      className={cn(
-        "py-20 md:py-28",
-        animate && reveal(isVisible, entranceUp),
-        className,
-      )}
+      className={cn("py-20 md:py-28", className)}
+      variants={fadeUp}
+      initial={animate ? "hidden" : false}
+      whileInView={animate ? "show" : undefined}
+      viewport={animate ? { once: true, amount: 0.15 } : undefined}
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {title && (
@@ -46,6 +43,6 @@ export function SectionWrapper({
         )}
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 }
