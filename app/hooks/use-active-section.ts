@@ -4,31 +4,37 @@ export function useActiveSection(sectionIds: string[]) {
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // The band can hold more than one section during a fast scroll; the
-        // topmost one is the section the reader is actually looking at.
-        let topmost: IntersectionObserverEntry | null = null;
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          if (
-            !topmost ||
-            entry.boundingClientRect.top < topmost.boundingClientRect.top
-          ) {
-            topmost = entry;
-          }
-        }
-        if (topmost) setActiveId(topmost.target.id);
-      },
-      { rootMargin: "-20% 0px -80% 0px" },
-    );
+    const sync = () => {
+      // The section above the 20% reading line is the one being read; computed
+      // fresh per scroll event so both scroll directions agree.
+      const line = window.innerHeight * 0.2;
+      let active = "";
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) active = id;
+      }
 
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
+      // The last section can sit below the line: there is never enough page
+      // below it to bring its top up to the line, so it owns the screen while
+      // its top is in the lower half of the viewport or the page is at the
+      // bottom.
+      const last = document.getElementById(sectionIds[sectionIds.length - 1]);
+      if (
+        last &&
+        (last.getBoundingClientRect().top <= window.innerHeight / 2 ||
+          window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 1)
+      ) {
+        active = last.id;
+      }
 
-    return () => observer.disconnect();
+      // Nothing above the line (the hero) keeps the previous highlight.
+      if (active) setActiveId(active);
+    };
+
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => window.removeEventListener("scroll", sync);
   }, [sectionIds]);
 
   return activeId;

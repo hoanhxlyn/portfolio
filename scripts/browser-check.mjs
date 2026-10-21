@@ -270,19 +270,49 @@ for (const [setting, expected] of [
     JSON.stringify(stat),
   );
 
+  const activeLinks = () =>
+    page.evaluate(() =>
+      [...document.querySelectorAll("header ul a")]
+        .filter((a) => a.classList.contains("text-primary"))
+        .map((a) => a.getAttribute("href")),
+    );
+
   await page.evaluate(() =>
     document.getElementById("projects").scrollIntoView(),
   );
   await page.waitForTimeout(700);
-  const active = await page.evaluate(() =>
-    [...document.querySelectorAll("header ul a")]
-      .filter((a) => a.classList.contains("text-primary"))
-      .map((a) => a.getAttribute("href")),
-  );
+  const active = await activeLinks();
   check(
     "scroll spy: only #projects is highlighted once scrolled there",
     active.length === 1 && active[0] === "#projects",
     JSON.stringify(active),
+  );
+
+  // The last section can never bring its top up to the 20% reading line (not
+  // enough page below it), so it owns the screen near the bottom of the page.
+  await page.evaluate(() =>
+    window.scrollTo(0, document.documentElement.scrollHeight),
+  );
+  await page.waitForTimeout(700);
+  const atBottom = await activeLinks();
+  check(
+    "scroll spy: only #contact is highlighted at the bottom of the page",
+    atBottom.length === 1 && atBottom[0] === "#contact",
+    JSON.stringify(atBottom),
+  );
+
+  // Scrolling back up must hand the highlight to the section now at the
+  // reading line instead of skipping it on the way out of #contact.
+  await page.evaluate(() => {
+    const r = document.getElementById("projects").getBoundingClientRect();
+    window.scrollBy(0, r.top + r.height / 2 - window.innerHeight * 0.2);
+  });
+  await page.waitForTimeout(700);
+  const backUp = await activeLinks();
+  check(
+    "scroll spy: scrolling back up highlights #projects again (nothing skipped)",
+    backUp.length === 1 && backUp[0] === "#projects",
+    JSON.stringify(backUp),
   );
 
   await page.evaluate(() => window.scrollTo(0, 0));

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
 import { About } from "~/components/sections/about";
@@ -25,6 +25,7 @@ export default function Home() {
   // project page itself always opens at the top (see routes/project.tsx).
   // Saving on scroll (not on unmount) avoids capturing a value already clamped
   // to the shorter page that replaces this one.
+  const mainRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const saved = sessionStorage.getItem(SCROLL_KEY);
     if (saved !== null) {
@@ -35,6 +36,10 @@ export default function Home() {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
+        // The route swap clamps the scroll before this effect's cleanup runs,
+        // so its scroll event must not be saved: skip once home is out of the
+        // document.
+        if (!mainRef.current?.isConnected) return;
         sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
       });
     };
@@ -48,7 +53,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main ref={mainRef}>
         <Hero />
         <About />
         <Skills />
